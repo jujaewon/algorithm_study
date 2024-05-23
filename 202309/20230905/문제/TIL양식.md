@@ -1,0 +1,70 @@
+<br/><Br>
+
+<span style = "color:orange">
+
+# 강의실 배정
+</span>
+<br>
+> 출처 : https://www.acmicpc.net/problem/11000
+
+## 문제
+
+수강신청의 마스터 김종혜 선생님에게 새로운 과제가 주어졌다. 
+
+김종혜 선생님한테는 Si에 시작해서 Ti에 끝나는 N개의 수업이 주어지는데, 최소의 강의실을 사용해서 모든 수업을 가능하게 해야 한다. 
+
+참고로, 수업이 끝난 직후에 다음 수업을 시작할 수 있다. (즉, Ti ≤ Sj 일 경우 i 수업과 j 수업은 같이 들을 수 있다.)
+
+수강신청 대충한 게 찔리면, 선생님을 도와드리자!
+
+## 입력
+첫 번째 줄에 N이 주어진다. (1 ≤ N ≤ 200,000)
+
+이후 N개의 줄에 Si, Ti가 주어진다. (0 ≤ Si < Ti ≤ 109)
+
+## 출력
+강의실의 개수를 출력하라.
+
+## 풀이
+
+```python
+import sys
+import heapq
+
+input = sys.stdin.readline
+n = int(input())
+
+que = [list(map(int, input().split())) for _ in range(n)]
+que.sort(key = lambda x : x[0])
+
+classes = []
+heapq.heappush(classes, que[0][1])
+
+for i in range(1, n):
+    if que[i][0] < classes[0]: # 현재 회의실 끝나는 시간보다 다음 회의 시작시간이 빠르면
+        heapq.heappush(classes, que[i][1]) # 새로운 회의실 개설
+    else: # 현재 회의실에 이어서 회의 개최 가능
+        # 새로운 회의로 시간 변경을 위해 pop후 새 시간 push
+        heapq.heappop(classes)
+        heapq.heappush(classes, que[i][1])
+
+# 필요한 최소 강의실 개수
+print(len(classes)) 
+```
+<br>
+
+> 풀이설명
+
+<br/><br>
+
+
+## 의문점
+> 해결되지 않은 부분
+
+
+<br/><br>
+
+
+## 배운점
+> TIL
+
